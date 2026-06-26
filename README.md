@@ -1,94 +1,179 @@
-# Pujukan
-This is a website for a meat retailer called Pujukan. 
+# Pujukan 🥩
 
-# Table of Contents
-- [Setup](#setup)
-- [Features](#features)
-- [Tech Stack](#tech-stack) 
+A website for **Pujukan**, a meat retailer, built to showcase available meat offerings and allow the owner to manage them through a simple admin panel — no technical knowledge required.
 
-# Setup
-To run the Pujukan application locally, you must run the databases, the backend server, and the frontend storefront simultaneously.
+***
 
-### 1. Prerequisites
-- Node.js (v20+ LTS)
-- Docker Desktop
-- Stripe Developer Account (for API keys)
-- Shippo Developer Account (for API keys)
+## Overview
 
-### 2. Start the Databases
-Pujukan relies on PostgreSQL for persistent data and Redis for caching and background jobs. Start them using Docker:
-```bash
-docker-compose up -d
+Pujukan is a full-stack web application consisting of:
+
+- A **public-facing menu** where customers can browse available meat offerings
+- A **password-protected admin panel** where the owner can add, edit, and delete meat offerings with ease
+- A **REST API** powered by Node.js and Express that handles all data operations
+- A **PostgreSQL database** for persistent, server-side storage of all offerings
+
+***
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | HTML5, CSS3, Vanilla JavaScript |
+| Backend | Node.js, Express |
+| Database | PostgreSQL |
+| Authentication | JSON Web Tokens (JWT) |
+
+***
+
+## Project Structure
+
+```
+pujukan/
+├── client/                  # Frontend
+│   ├── index.html           # Public menu page
+│   ├── admin.html           # Owner admin panel
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       ├── menu.js          # Fetches and renders offerings
+│       └── admin.js         # Handles CRUD operations via API
+│
+├── server/                  # Backend
+│   ├── index.js             # Express app entry point
+│   ├── routes/
+│   │   └── offerings.js     # CRUD routes for meat offerings
+│   ├── controllers/
+│   │   └── offerings.js     # Route logic
+│   ├── middleware/
+│   │   └── auth.js          # JWT authentication middleware
+│   └── db/
+│       ├── index.js         # PostgreSQL connection
+│       └── schema.sql       # Database schema
+│
+├── .env                     # Environment variables (not committed)
+├── .env.example             # Example environment config
+├── package.json
+└── README.md
 ```
 
-### 3. Initialize the Medusa Backend
-Navigate to the backend directory, install dependencies, and start the Medusa server:
-```bash
-cd backend
-npm install
+***
+
+## Features
+
+### Public Menu
+- Displays all available meat offerings (name, cut, price, description, image)
+- Dynamically rendered from the database via the REST API
+- Fully responsive for mobile and desktop
+
+### Admin Panel
+- Password-protected login using JWT authentication
+- **Create** — Add a new meat offering via a simple form
+- **Read** — View all current offerings in a dashboard table
+- **Update** — Edit any offering's details inline
+- **Delete** — Remove an offering with a confirmation prompt
+
+***
+
+## API Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| `GET` | `/api/offerings` | Get all meat offerings | No |
+| `GET` | `/api/offerings/:id` | Get a single offering | No |
+| `POST` | `/api/offerings` | Create a new offering | ✅ Yes |
+| `PUT` | `/api/offerings/:id` | Update an offering | ✅ Yes |
+| `DELETE` | `/api/offerings/:id` | Delete an offering | ✅ Yes |
+| `POST` | `/api/auth/login` | Owner login, returns JWT | No |
+
+***
+
+## Database Schema
+
+```sql
+CREATE TABLE offerings (
+  id          SERIAL PRIMARY KEY,
+  name        VARCHAR(255) NOT NULL,
+  cut         VARCHAR(255),
+  price       VARCHAR(100),
+  description TEXT,
+  image_url   TEXT,
+  created_at  TIMESTAMP DEFAULT NOW(),
+  updated_at  TIMESTAMP DEFAULT NOW()
+);
 ```
 
-Rename the .env.template to .env and add your keys:
+***
 
-```text
-DATABASE_URL=postgres://user:password@localhost:5432/pujukan
-REDIS_URL=redis://localhost:6379
-STRIPE_API_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-SHIPPO_API_KEY=shippo_test_...
-```
-Seed the database and start the server:
+## Getting Started
 
-```bash
-npx medusa seed --seed-file=data/seed.json
-npm run dev
-```
-The backend now runs on http://localhost:9000 and the Admin panel on http://localhost:7001.
+### Prerequisites
 
-### 4. Initialize the Next.js Storefront
-Open a new terminal, navigate to the storefront directory, and install dependencies:
+- [Node.js](https://nodejs.org/) (v18+)
+- [PostgreSQL](https://www.postgresql.org/) (v14+)
 
-```bash
-cd storefront
-npm install
-```
-Rename the .env.template to .env.local and link to the backend:
+### Installation
 
-```text
-NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
-NEXT_PUBLIC_STRIPE_KEY=pk_test_...
-```
-Start the frontend development server:
-```bash
-npm run dev
-```
-The storefront is now live at http://localhost:8000.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/hryow/pujukan.git
+   cd pujukan
+   ```
 
-# Features
-- **Catch-Weight Pricing:** Supports two-step payment authorization. A temporary hold is placed on the customer's card at checkout, and the final exact amount is captured only after the meat is cut and weighed.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-- **Automated Logistics & Routing:** Integrated with Shippo to automatically generate shipping labels for cold-chain boxes based on final fulfillment weights.
+3. **Set up environment variables**
 
-- **Headless Storefront:** Blazing fast, SEO-optimized frontend using Next.js, completely decoupled from the backend logic.
+   Copy `.env.example` to `.env` and fill in your values:
+   ```bash
+   cp .env.example .env
+   ```
 
-- **Perishable Inventory Management:** Tracks expiry lots and auto-decrements real-time stock to prevent overselling limited, high-demand cuts.
+   ```env
+   PORT=3000
+   DATABASE_URL=postgresql://user:password@localhost:5432/pujukan
+   JWT_SECRET=your_secret_key_here
+   ADMIN_PASSWORD=owner_password_here
+   ```
 
-- **Custom Admin Dashboard:** A centralized portal for butchers and dispatchers to manage variable pricing updates, orders, and delivery schedules.
+4. **Set up the database**
+   ```bash
+   psql -U your_user -d pujukan -f server/db/schema.sql
+   ```
 
-# Tech Stack 
-### Frontend
-- **Next.js (React):** Handles the main storefront and SSR features for fast load times.
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-- **Tailwind CSS:** Manages the responsive, custom UI design.
+   The app will be available at `http://localhost:3000`.
 
-- **Medusa React Client:** Communicates securely with the headless backend.
-### Backend
-- **MedusaJS (Node.js):** The core open-source headless commerce engine managing carts, orders, and inventory.
+***
 
-- **Stripe API:** Handles secure, two-step Auth & Capture payments.
+## Deployment
 
-- **Shippo API:** Handles the fulfillment pipeline and carrier integrations.
-### Database
-- **PostgreSQL:** The primary relational database for users, products, categories, and order histories.
+This project is suited for deployment on platforms that support Node.js and PostgreSQL:
 
-- **Redis:** Manages the event bus, queuing webhook events (like Stripe notifications), and cart caching.
+- **[Railway](https://railway.app/)** — Recommended: deploys both Node.js and PostgreSQL together with minimal configuration
+- **[Render](https://render.com/)** — Free tier available for Node.js apps with managed PostgreSQL
+- **[Fly.io](https://fly.io/)** — More control with a generous free tier
+
+***
+
+## Environment Variables
+
+| Variable | Description |
+|---|---|
+| `PORT` | Port the Express server runs on |
+| `DATABASE_URL` | PostgreSQL connection string |
+| `JWT_SECRET` | Secret key for signing JWT tokens |
+| `ADMIN_PASSWORD` | Password for the owner's admin login |
+
+***
+
+## License
+
+This project is private and intended for use by Pujukan only.
