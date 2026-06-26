@@ -1,179 +1,164 @@
 # Pujukan 🥩
 
-A website for **Pujukan**, a meat retailer, built to showcase available meat offerings and allow the owner to manage them through a simple admin panel — no technical knowledge required.
-
-***
+A website for **Pujukan**, a meat retailer, built with React and Vite to showcase meat offerings, support English and Korean, and let the owner manage content through Supabase without a custom backend.
 
 ## Overview
 
-Pujukan is a full-stack web application consisting of:
+Pujukan is a simplified web project designed for a meat retailer that does not need e-commerce or checkout functionality.
 
-- A **public-facing menu** where customers can browse available meat offerings
-- A **password-protected admin panel** where the owner can add, edit, and delete meat offerings with ease
-- A **REST API** powered by Node.js and Express that handles all data operations
-- A **PostgreSQL database** for persistent, server-side storage of all offerings
-
-***
+The site includes:
+- A public-facing menu for meat offerings
+- Bilingual support in English and Korean (한국어)
+- Downloadable price lists in both languages
+- A simple admin workflow powered by Supabase for CRUD operations
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Frontend | HTML5, CSS3, Vanilla JavaScript |
-| Backend | Node.js, Express |
-| Database | PostgreSQL |
-| Authentication | JSON Web Tokens (JWT) |
-
-***
+| Frontend | React, Vite, JSX, CSS |
+| i18n | react-i18next, i18next, i18next-browser-languagedetector |
+| Database | Supabase (PostgreSQL) |
+| Auth | Supabase Auth |
+| Hosting | Vercel or Netlify |
 
 ## Project Structure
 
-```
+```bash
 pujukan/
-├── client/                  # Frontend
-│   ├── index.html           # Public menu page
-│   ├── admin.html           # Owner admin panel
-│   ├── css/
-│   │   └── style.css
-│   └── js/
-│       ├── menu.js          # Fetches and renders offerings
-│       └── admin.js         # Handles CRUD operations via API
-│
-├── server/                  # Backend
-│   ├── index.js             # Express app entry point
-│   ├── routes/
-│   │   └── offerings.js     # CRUD routes for meat offerings
-│   ├── controllers/
-│   │   └── offerings.js     # Route logic
-│   ├── middleware/
-│   │   └── auth.js          # JWT authentication middleware
-│   └── db/
-│       ├── index.js         # PostgreSQL connection
-│       └── schema.sql       # Database schema
-│
-├── .env                     # Environment variables (not committed)
-├── .env.example             # Example environment config
+├── media/
+├── public/
+├── src/
+│   ├── assets/
+│   │   ├── price_list.pdf
+│   │   ├── price_list_english.pdf
+│   │   └── pujukan_logo.png
+│   ├── components/
+│   ├── locales/
+│   │   ├── en/
+│   │   │   └── translation.json
+│   │   └── ko/
+│   │       └── translation.json
+│   ├── App.jsx
+│   ├── App.css
+│   ├── i18n.js
+│   ├── supabase.js
+│   ├── index.css
+│   └── main.jsx
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package-lock.json
 ├── package.json
-└── README.md
+├── README.md
+└── vite.config.js
 ```
-
-***
 
 ## Features
 
-### Public Menu
-- Displays all available meat offerings (name, cut, price, description, image)
-- Dynamically rendered from the database via the REST API
-- Fully responsive for mobile and desktop
+### Public Site
+- Display meat offerings with name, description, price, and image
+- Responsive layout for mobile and desktop
+- Downloadable Korean and English price lists
+- Language switcher for EN and 한국어
+- Browser language detection on first visit
 
-### Admin Panel
-- Password-protected login using JWT authentication
-- **Create** — Add a new meat offering via a simple form
-- **Read** — View all current offerings in a dashboard table
-- **Update** — Edit any offering's details inline
-- **Delete** — Remove an offering with a confirmation prompt
+### Admin Content Management
+- Owner login with Supabase Auth
+- Create new offerings
+- Read and view current offerings
+- Update offering details
+- Delete offerings
+- Changes appear on the site instantly without needing a custom server
 
-***
+## Supabase Setup
 
-## API Endpoints
+Install the client:
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `GET` | `/api/offerings` | Get all meat offerings | No |
-| `GET` | `/api/offerings/:id` | Get a single offering | No |
-| `POST` | `/api/offerings` | Create a new offering | ✅ Yes |
-| `PUT` | `/api/offerings/:id` | Update an offering | ✅ Yes |
-| `DELETE` | `/api/offerings/:id` | Delete an offering | ✅ Yes |
-| `POST` | `/api/auth/login` | Owner login, returns JWT | No |
+```bash
+npm install @supabase/supabase-js
+```
 
-***
+Create `src/supabase.js`:
 
-## Database Schema
+```js
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+```
+
+Create the offerings table in the Supabase SQL Editor:
 
 ```sql
-CREATE TABLE offerings (
-  id          SERIAL PRIMARY KEY,
-  name        VARCHAR(255) NOT NULL,
-  cut         VARCHAR(255),
-  price       VARCHAR(100),
-  description TEXT,
-  image_url   TEXT,
-  created_at  TIMESTAMP DEFAULT NOW(),
-  updated_at  TIMESTAMP DEFAULT NOW()
+create table offerings (
+  id bigint generated by default as identity primary key,
+  name text not null,
+  cut text,
+  price text,
+  description text,
+  image_url text,
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
 );
 ```
 
-***
+## i18n Setup
 
-## Getting Started
+Install i18n packages:
 
-### Prerequisites
+```bash
+npm install react-i18next i18next i18next-browser-languagedetector
+```
 
-- [Node.js](https://nodejs.org/) (v18+)
-- [PostgreSQL](https://www.postgresql.org/) (v14+)
+Create `src/i18n.js`:
 
-### Installation
+```js
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import en from './locales/en/translation.json';
+import ko from './locales/ko/translation.json';
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/hryow/pujukan.git
-   cd pujukan
-   ```
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: { translation: en },
+      ko: { translation: ko },
+    },
+    fallbackLng: 'en',
+    interpolation: { escapeValue: false },
+  });
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Set up environment variables**
-
-   Copy `.env.example` to `.env` and fill in your values:
-   ```bash
-   cp .env.example .env
-   ```
-
-   ```env
-   PORT=3000
-   DATABASE_URL=postgresql://user:password@localhost:5432/pujukan
-   JWT_SECRET=your_secret_key_here
-   ADMIN_PASSWORD=owner_password_here
-   ```
-
-4. **Set up the database**
-   ```bash
-   psql -U your_user -d pujukan -f server/db/schema.sql
-   ```
-
-5. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-
-   The app will be available at `http://localhost:3000`.
-
-***
-
-## Deployment
-
-This project is suited for deployment on platforms that support Node.js and PostgreSQL:
-
-- **[Railway](https://railway.app/)** — Recommended: deploys both Node.js and PostgreSQL together with minimal configuration
-- **[Render](https://render.com/)** — Free tier available for Node.js apps with managed PostgreSQL
-- **[Fly.io](https://fly.io/)** — More control with a generous free tier
-
-***
+export default i18n;
+```
 
 ## Environment Variables
 
-| Variable | Description |
-|---|---|
-| `PORT` | Port the Express server runs on |
-| `DATABASE_URL` | PostgreSQL connection string |
-| `JWT_SECRET` | Secret key for signing JWT tokens |
-| `ADMIN_PASSWORD` | Password for the owner's admin login |
+Create a `.env` file at the project root:
 
-***
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+The app runs locally at `http://localhost:5173`.
+
+## Deployment
+
+Deploy as a static frontend on Vercel or Netlify. Add your two Supabase environment variables in the hosting dashboard before deploying.
 
 ## License
 
-This project is private and intended for use by Pujukan only.
+This project is private and intended for Pujukan only.
