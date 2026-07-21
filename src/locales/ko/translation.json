@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "products": "제품",
+    "recipes": "레시피",
+    "about": "소개",
+    "contact": "문의"
+  },
+  "language": {
+    "label": "언어 선택"
+  },
+  "hero": {
+    "title": "한 단계 더 특별하게",
+    "description": "품질과 신선도, 맛을 기준으로 엄선한 프리미엄 로컬 육류를 제공합니다.",
+    "cta": "둘러보기"
+  },
+  "products": {
+    "title": "제품 안내",
+    "loading": "Supabase에서 제품을 불러오는 중입니다...",
+    "empty": "등록된 제품이 아직 없습니다.",
+    "error": "지금은 제품을 불러올 수 없습니다.",
+    "notConfigured": "Supabase가 아직 설정되지 않았습니다.",
+    "filters": {
+      "label": "태그로 필터링",
+      "clear": "필터 초기화",
+      "none": "선택한 태그와 일치하는 제품이 없습니다.",
+      "showing": "총 {{total}}개 중 {{visible}}개 표시 중"
+    },
+    "items": {
+      "ribeye": "립아이",
+      "shortRib": "갈비살",
+      "bulgogi": "불고기"
+    }
+  },
+  "recipes": {
+    "title": "레시피",
+    "items": {
+      "bbq": "코리안 바비큐",
+      "stew": "소고기 스튜",
+      "stirFry": "볶음요리"
+    }
+  },
+  "about": {
+    "title": "소개",
+    "description": "Chino Hills, California에 위치한 Pujukan은 프리미엄 로컬 육류를 전문으로 하는 가족 소유의 사업체입니다. 우리는 고객에게 최고의 품질의 제품과 뛰어난 서비스를 제공하기 위해 최선을 다하고 있습니다."
+  },
+  "contact": {
+    "title": "문의",
+    "description": "문의 사항이 있으시면 아래 연락처를 이용해 주세요.",
+    "phone": "전화: (909) 559-6792",
+    "email": "이메일: [email protected]",
+    "instagram": "인스타그램: @pujukan_ch"
+  },
+  "shared": {
+    "viewMore": "더 보기"
+  }
+}

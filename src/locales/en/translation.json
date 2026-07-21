@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "products": "PRODUCTS",
+    "recipes": "RECIPES",
+    "about": "ABOUT",
+    "contact": "CONTACT"
+  },
+  "language": {
+    "label": "Language switcher"
+  },
+  "hero": {
+    "title": "A Cut Above",
+    "description": "Premium local meats, expertly cut and thoughtfully selected for quality, flavor, and freshness.",
+    "cta": "Browse now"
+  },
+  "products": {
+    "title": "OUR PRODUCTS",
+    "loading": "Loading products from Supabase...",
+    "empty": "No products have been added yet.",
+    "error": "Products could not be loaded right now.",
+    "notConfigured": "Supabase is not configured yet.",
+    "filters": {
+      "label": "Filter by tag",
+      "clear": "Clear filters",
+      "none": "No products match the selected tags.",
+      "showing": "Showing {{visible}} of {{total}} products"
+    },
+    "items": {
+      "ribeye": "Ribeye",
+      "shortRib": "Short Rib",
+      "bulgogi": "Bulgogi"
+    }
+  },
+  "recipes": {
+    "title": "RECIPES",
+    "items": {
+      "bbq": "Korean BBQ",
+      "stew": "Beef Stew",
+      "stirFry": "Stir-Fry"
+    }
+  },
+  "about": {
+    "title": "ABOUT",
+    "description": "Located in Chino Hills, California, Pujukan is a family-owned business that specializes in premium local meats. We are committed to providing our customers with the highest quality products and exceptional service."
+  },
+  "contact": {
+    "title": "CONTACT",
+    "description": "If you have any questions or inquiries, please feel free to reach out to us using the details below.",
+    "phone": "Phone: (909) 559-6792",
+    "email": "Email: [email protected]",
+    "instagram": "Instagram: @pujukan_ch"
+  },
+  "shared": {
+    "viewMore": "View more"
+  }
+}
