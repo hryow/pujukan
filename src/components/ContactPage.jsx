@@ -12,7 +12,7 @@ export default function ContactPage() {
         <p>{t('contact.description')}</p>
         <div className="contact-card">
           <a href="tel:+19095596792">{t('contact.phone')}</a>
-          <a href="mailto:hello@pujukan.com">{t('contact.email')}</a>
+          <a href="mailto:pujukanch@gmail.com">{t('contact.email')}</a>
           <a href="https://www.instagram.com/pujukan_ch/" target="_blank" rel="noreferrer">
             {t('contact.instagram')}
           </a>

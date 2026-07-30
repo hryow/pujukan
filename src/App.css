@@ -80,13 +80,21 @@ a {
   width: 20em;
   text-align: right;
   margin: 3em 5em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+  color: white;
+}
+
+.intro-text h1 {
+  color: white;
 }
 
 .intro-panel {
   display: flex;
   justify-content: flex-end;
   height: 580px;
-  background-color: gray;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)),
+    url('../cutting_meat.jpg') center center / cover no-repeat;
   align-items: center;
 }
 

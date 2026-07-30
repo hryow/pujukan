@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'wouter'
 import { useTranslation } from 'react-i18next'
 import SiteHeader from './SiteHeader.jsx'
 

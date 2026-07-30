@@ -1,23 +1,29 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export default function ProductGallery({ products, loading, errorKey, errorMessage }) {
+export default function ProductGallery({ products, loading, errorKey, errorMessage, maxItems, showFilters = true }) {
   const { t } = useTranslation()
   const [activeTags, setActiveTags] = useState([])
+  const visibleProducts = useMemo(
+    () => (typeof maxItems === 'number' ? products.slice(0, maxItems) : products),
+    [maxItems, products],
+  )
 
   const availableTags = useMemo(
     () =>
-      [...new Set(products.flatMap((product) => product.tags ?? []))].sort((left, right) => left.localeCompare(right)),
-    [products],
+      [...new Set(visibleProducts.flatMap((product) => product.tags ?? []))].sort((left, right) =>
+        left.localeCompare(right),
+      ),
+    [visibleProducts],
   )
 
   const filteredProducts = useMemo(() => {
     if (activeTags.length === 0) {
-      return products
+      return visibleProducts
     }
 
-    return products.filter((product) => activeTags.every((tag) => (product.tags ?? []).includes(tag)))
-  }, [activeTags, products])
+    return visibleProducts.filter((product) => activeTags.every((tag) => (product.tags ?? []).includes(tag)))
+  }, [activeTags, visibleProducts])
 
   const toggleTag = (tag) => {
     setActiveTags((currentTags) =>
@@ -38,13 +44,13 @@ export default function ProductGallery({ products, loading, errorKey, errorMessa
     )
   }
 
-  if (products.length === 0) {
+  if (visibleProducts.length === 0) {
     return <div className="gallery-box gallery-box--status">{t('products.empty')}</div>
   }
 
   return (
     <div>
-      {availableTags.length > 0 ? (
+      {showFilters && availableTags.length > 0 ? (
         <div className="product-filter-bar" aria-label={t('products.filters.label')}>
           <div className="product-filter-bar__label">{t('products.filters.label')}</div>
           <div className="product-filter-bar__chips">
@@ -66,7 +72,7 @@ export default function ProductGallery({ products, loading, errorKey, errorMessa
             ) : null}
           </div>
           <div className="product-filter-bar__meta">
-            {t('products.filters.showing', { visible: filteredProducts.length, total: products.length })}
+            {t('products.filters.showing', { visible: filteredProducts.length, total: visibleProducts.length })}
           </div>
         </div>
       ) : null}
@@ -86,7 +92,7 @@ export default function ProductGallery({ products, loading, errorKey, errorMessa
               </div>
               <div className="product-card__body">
                 <h3 className="product-card__title">{product.title}</h3>
-                {product.tags?.length > 0 ? (
+                {showFilters && product.tags?.length > 0 ? (
                   <div className="product-card__tags">
                     {product.tags.map((tag) => (
                       <button

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'wouter'
 import { useTranslation } from 'react-i18next'
 import logo from '../assets/pujukan_logo.png'
 import SiteHeader from './SiteHeader.jsx'
@@ -25,7 +25,14 @@ export default function HomePage() {
 
       <section id="products" className="content-panel">
         <h2>{t('products.title')}</h2>
-        <ProductGallery products={products} loading={loading} errorKey={errorKey} errorMessage={errorMessage} />
+        <ProductGallery
+          products={products}
+          loading={loading}
+          errorKey={errorKey}
+          errorMessage={errorMessage}
+          maxItems={3}
+          showFilters={false}
+        />
         <Link to="/products" className="button">
           {t('hero.cta')}
         </Link>
@@ -53,7 +60,7 @@ export default function HomePage() {
         <p>{t('contact.description')}</p>
         <div className="contact-card">
           <a href="tel:+19095596792">{t('contact.phone')}</a>
-          <a href="mailto:hello@pujukan.com">{t('contact.email')}</a>
+          <a href="mailto:pujukanch@gmail.com">{t('contact.email')}</a>
           <a href="https://www.instagram.com/pujukan_ch/" target="_blank" rel="noreferrer">
             {t('contact.instagram')}
           </a>

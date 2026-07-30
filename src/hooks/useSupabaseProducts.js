@@ -9,6 +9,11 @@ function toSortableNumber(value) {
   return Number.isFinite(parsedValue) ? parsedValue : null
 }
 
+function getImageUrl(row) {
+  const imageUrl = row.image_path ?? row.image_url ?? row.imageUrl ?? ''
+  return typeof imageUrl === 'string' ? imageUrl.trim() : ''
+}
+
 function normalizeProduct(row, index, isKorean) {
   const typeTag = row.product_type?.trim() || ''
   const meatTag = row.meat_type?.trim() || ''
@@ -19,7 +24,7 @@ function normalizeProduct(row, index, isKorean) {
     description: typeTag,
     price: meatTag,
     tags: [typeTag, meatTag].filter(Boolean),
-    imageUrl: '',
+    imageUrl: getImageUrl(row),
     sortOrder: toSortableNumber(row.product_id),
     createdAt: null,
   }
