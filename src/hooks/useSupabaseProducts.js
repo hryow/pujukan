@@ -15,13 +15,14 @@ function getImageUrl(row) {
 }
 
 function normalizeProduct(row, index, isKorean) {
-  const typeTag = row.product_type?.trim() || ''
-  const meatTag = row.meat_type?.trim() || ''
+  const typeTag = isKorean ? row.kor_product_type?.trim() || '' : row.en_product_type?.trim() || ''
+  const meatTag = isKorean ? row.kor_meat_type?.trim() || '' : row.en_meat_type?.trim() || ''
+  const description = isKorean ? row.kor_description?.trim() || '' : row.en_description?.trim() || ''
 
   return {
     id: row.product_id ?? `product-${index}`,
     title: isKorean ? row.korean_name ?? `Product ${index + 1}` : row.english_name ?? `Product ${index + 1}`,
-    description: typeTag,
+    description,
     price: meatTag,
     tags: [typeTag, meatTag].filter(Boolean),
     imageUrl: getImageUrl(row),

@@ -6,15 +6,16 @@ import ProductGallery from './ProductGallery.jsx'
 import useSupabaseProducts from '../hooks/useSupabaseProducts.js'
 
 export default function HomePage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { products, loading, errorKey, errorMessage } = useSupabaseProducts()
+  const isKorean = (i18n.resolvedLanguage || i18n.language || 'en').startsWith('ko')
 
   return (
     <div id="homepage" className="page-shell">
       <SiteHeader />
 
       <div id="top" className="intro-panel">
-        <div className="intro-text">
+        <div className={`intro-text${isKorean ? ' intro-text--ko' : ''}`}>
           <h1>{t('hero.title')}</h1>
           <p>{t('hero.description')}</p>
           <Link to="/products" className="button">
@@ -32,6 +33,7 @@ export default function HomePage() {
           errorMessage={errorMessage}
           maxItems={3}
           showFilters={false}
+          showCardTags={false}
         />
         <Link to="/products" className="button">
           {t('hero.cta')}
