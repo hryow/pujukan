@@ -57,9 +57,14 @@ Create a `.env` file at the project root:
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
 VITE_SUPABASE_PRODUCTS_TABLE=products
+VITE_INSTAGRAM_GRAPH_API_VERSION=v25.0
+VITE_INSTAGRAM_IG_USER_ID=your-instagram-professional-user-id
+VITE_INSTAGRAM_ACCESS_TOKEN=your-long-lived-user-access-token
+VITE_INSTAGRAM_PROFILE_URL=https://www.instagram.com/pujukan_ch/
 ```
 
 `VITE_SUPABASE_PRODUCTS_TABLE` is optional, but it must match the exact table name if you are not using the default `products`.
+The Instagram section uses the official Instagram Graph API, so you need a professional Instagram account connected to Meta and a valid user access token with `instagram_basic` and `pages_read_engagement` permissions.
 
 ## Tech Stack
 

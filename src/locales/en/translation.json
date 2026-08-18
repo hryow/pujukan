@@ -24,20 +24,23 @@
       "clear": "Clear filters",
       "none": "No products match the selected tags.",
       "showing": "Showing {{visible}} of {{total}} products"
-    },
-    "items": {
-      "ribeye": "Ribeye",
-      "shortRib": "Short Rib",
-      "bulgogi": "Bulgogi"
     }
   },
   "recipes": {
     "title": "RECIPES",
-    "items": {
-      "bbq": "Korean BBQ",
-      "stew": "Beef Stew",
-      "stirFry": "Stir-Fry"
-    }
+    "description": "Browse featured recipes and preparation ideas made with our products.",
+    "loading": "Loading recipes from Supabase...",
+    "empty": "No recipes have been added yet.",
+    "error": "Recipes could not be loaded right now.",
+    "notConfigured": "Supabase is not configured yet.",
+    "filters": {
+      "label": "Filter by tag",
+      "clear": "Clear filters",
+      "none": "No recipes match the selected tags.",
+      "showing": "Showing {{visible}} of {{total}} recipes"
+    },
+    "ingredients": "Ingredients:",
+    "steps": "Steps:"
   },
   "about": {
     "title": "ABOUT",
@@ -49,6 +52,15 @@
     "phone": "Phone: (909) 559-6792",
     "email": "Email: pujukanch@gmail.com",
     "instagram": "Instagram: @pujukan_ch"
+  },
+  "instagram": {
+    "title": "RECENT POSTS",
+    "viewProfile": "View profile",
+    "previous": "Previous posts",
+    "next": "Next posts",
+    "loading": "Loading Instagram posts...",
+    "empty": "No Instagram posts could be loaded right now.",
+    "error": "Instagram posts could not be loaded right now."
   },
   "shared": {
     "viewMore": "View more"

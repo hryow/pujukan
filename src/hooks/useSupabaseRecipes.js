@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useSupabaseTable } from './useSupabaseTable.js'
 
-const PRODUCTS_TABLE = import.meta.env.VITE_SUPABASE_PRODUCTS_TABLE || 'products'
+const RECIPES_TABLE = import.meta.env.VITE_SUPABASE_RECIPES_TABLE || 'recipes'
 
 function toSortableNumber(value) {
   const parsedValue = Number(value)
@@ -13,25 +13,30 @@ function getImageUrl(row) {
   return typeof imageUrl === 'string' ? imageUrl.trim() : ''
 }
 
-function normalizeProduct(row, index, isKorean) {
-  const typeTag = isKorean ? row.kor_product_type?.trim() || '' : row.en_product_type?.trim() || ''
-  const meatTag = isKorean ? row.kor_meat_type?.trim() || '' : row.en_meat_type?.trim() || ''
-  const description = isKorean ? row.kor_description?.trim() || '' : row.en_description?.trim() || ''
+function normalizeRecipe(row, index, isKorean) {
+  const meatType = isKorean
+    ? String(row.kor_meat_type ?? '').trim()
+    : String(row.en_meat_type ?? '').trim()
+  const ingredients = isKorean
+    ? String(row.kor_ingredients ?? '').trim()
+    : String(row.en_ingredients ?? '').trim()
+  const steps = isKorean ? String(row.kor_steps ?? '').trim() : String(row.en_steps ?? '').trim()
 
   return {
-    id: row.product_id ?? `product-${index}`,
-    title: isKorean ? row.korean_name ?? `Product ${index + 1}` : row.english_name ?? `Product ${index + 1}`,
-    description,
-    price: meatTag,
-    tags: [typeTag, meatTag].filter(Boolean),
+    id: row.id,
+    title: isKorean ? row.kor_recipe_name ?? `Recipe ${index + 1}` : row.en_recipe_name ?? `Recipe ${index + 1}`,
+    meatType,
+    tags: meatType ? [meatType] : [],
+    ingredients,
+    steps,
     imageUrl: getImageUrl(row),
     sortOrder: toSortableNumber(row.product_id),
     createdAt: null,
   }
 }
 
-function sortProducts(products) {
-  return [...products].sort((left, right) => {
+function sortRecipes(recipes) {
+  return [...recipes].sort((left, right) => {
     if (left.sortOrder !== null || right.sortOrder !== null) {
       const leftOrder = left.sortOrder ?? Number.POSITIVE_INFINITY
       const rightOrder = right.sortOrder ?? Number.POSITIVE_INFINITY
@@ -52,16 +57,16 @@ function sortProducts(products) {
   })
 }
 
-export default function useSupabaseProducts() {
+export default function useSupabaseRecipes() {
   const { i18n } = useTranslation()
   const isKorean = (i18n.resolvedLanguage || i18n.language || 'en').startsWith('ko')
 
   const { items, loading, errorKey, errorMessage, tableName } = useSupabaseTable(
-    PRODUCTS_TABLE,
-    (row, index) => normalizeProduct(row, index, isKorean),
-    sortProducts,
+    RECIPES_TABLE,
+    (row, index) => normalizeRecipe(row, index, isKorean),
+    sortRecipes,
     [isKorean],
   )
 
-  return { products: items, loading, errorKey, errorMessage, tableName }
+  return { recipes: items, loading, errorKey, errorMessage, tableName }
 }

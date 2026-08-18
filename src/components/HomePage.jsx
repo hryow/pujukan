@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import logo from '../assets/pujukan_logo.png'
 import SiteHeader from './SiteHeader.jsx'
 import ProductGallery from './ProductGallery.jsx'
+import InstagramSection from './InstagramSection.jsx'
+import RecipesPage from './RecipesPage.jsx'
 import useSupabaseProducts from '../hooks/useSupabaseProducts.js'
 
 export default function HomePage() {
@@ -31,7 +33,7 @@ export default function HomePage() {
           loading={loading}
           errorKey={errorKey}
           errorMessage={errorMessage}
-          maxItems={3}
+          maxItems={2}
           showFilters={false}
           showCardTags={false}
         />
@@ -40,15 +42,13 @@ export default function HomePage() {
         </Link>
       </section>
 
+      <InstagramSection />
+
       <section id="recipes" className="content-panel">
         <h2>{t('recipes.title')}</h2>
-        <div className="image-gallery">
-          <div className="gallery-box">{t('recipes.items.bbq')}</div>
-          <div className="gallery-box">{t('recipes.items.stew')}</div>
-          <div className="gallery-box">{t('recipes.items.stirFry')}</div>
-        </div>
+        <RecipesPage maxItems={2} preview showHeader={false} />
         <Link to="/recipes" className="button">
-          {t('hero.cta')}
+          {t('shared.viewMore')}
         </Link>
       </section>
 

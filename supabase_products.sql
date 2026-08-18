@@ -19,5 +19,14 @@ on public.products
 for select
 using (true);
 
+alter table public.recipes enable row level security;
+
+drop policy if exists "public read recipes" on public.recipes;
+
+create policy "public read recipes"
+on public.recipes
+for select
+using (true);
+
 -- Optional: allow the app to react to changes through Supabase realtime.
 -- In the Supabase dashboard, enable Realtime for this table if you want live updates.

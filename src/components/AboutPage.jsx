@@ -1,11 +1,8 @@
-import { Link } from 'wouter'
 import { useTranslation } from 'react-i18next'
-import { supabase } from '../supabase.js'
 import SiteHeader from './SiteHeader.jsx'
 
 export default function AboutPage() {
   const { t } = useTranslation()
-  const supabaseReady = Boolean(supabase)
 
   return (
     <div className="page-shell">

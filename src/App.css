@@ -212,6 +212,29 @@ a {
   margin: 2rem 4rem;
 }
 
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0 2rem;
+}
+
+.recipe-card__surface--preview {
+  cursor: default;
+}
+
+.recipe-card__body {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.recipe-card__summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .product-card {
   overflow: hidden;
   border-radius: 1rem;
@@ -356,6 +379,143 @@ a {
   margin-bottom: 1.25rem;
 }
 
+.instagram-section {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.instagram-section__header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.instagram-section__header h2 {
+  margin-bottom: 0.5rem;
+}
+
+.instagram-section__header p {
+  margin: 0;
+  max-width: 46rem;
+}
+
+.instagram-section__profile-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.instagram-carousel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.instagram-carousel__arrow {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--gold);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.instagram-carousel__arrow:hover:not(:disabled) {
+  background: var(--light-green);
+  transform: translateY(-1px);
+}
+
+.instagram-carousel__arrow:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.instagram-strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 320px);
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.instagram-strip--status {
+  grid-auto-flow: row;
+  grid-auto-columns: unset;
+  min-height: 180px;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.instagram-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: rgba(57, 82, 82, 0.92);
+  color: white;
+  box-shadow: 0 12px 24px rgba(57, 82, 82, 0.18);
+  scroll-snap-align: start;
+}
+
+.instagram-card__media {
+  aspect-ratio: 4 / 5;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.instagram-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.instagram-card__body {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.85rem 1rem 1rem;
+}
+
+.instagram-card__label {
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.instagram-card__title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.instagram-card__caption {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.4;
+  min-height: 7em;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.instagram-card__date {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
 .image-gallery {
   display: flex;
   justify-content: space-evenly;
@@ -365,6 +525,24 @@ a {
 }
 
 @media (max-width: 720px) {
+  .instagram-section__header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .instagram-carousel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .instagram-carousel__arrow {
+    display: none;
+  }
+
+  .instagram-strip {
+    grid-auto-columns: minmax(78vw, 1fr);
+  }
+
   .product-card__surface {
     grid-template-columns: 1fr;
   }

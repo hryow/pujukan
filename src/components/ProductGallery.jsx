@@ -35,12 +35,6 @@ export default function ProductGallery({
   }, [activeTags, visibleProducts])
 
   useEffect(() => {
-    if (expandedProductId && !filteredProducts.some((product) => product.id === expandedProductId)) {
-      setExpandedProductId(null)
-    }
-  }, [expandedProductId, filteredProducts])
-
-  useEffect(() => {
     if (!expandedProductId) {
       return undefined
     }
